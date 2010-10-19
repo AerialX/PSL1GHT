@@ -1,0 +1,44 @@
+PREFIX		:= ppu-
+AR			:= $(PREFIX)ar
+AS			:= $(PREFIX)as
+CC			:= $(PREFIX)gcc
+CXX			:= $(PREFIX)g++
+LD			:= $(PREFIX)ld
+STRIP		:= $(PREFIX)strip
+RAW2H		:= $(PSL1GHT)/../raw2h/raw2h
+FSELF		:= make_fself
+
+CFLAGS		:= -fno-exceptions -I$(PSL1GHT)/include
+CXXFLAGS	:= $(CFLAGS) -fno-rtti
+CFLAGS		+= --std=gnu99
+LDFLAGS		:= -nostdlib -T $(PSL1GHT)/linker.x
+
+DEPSOPTIONS	=	-MMD -MP -MF $(DEPSDIR)/$*.d
+
+%.o: %.c
+	@echo "[CC]  $(notdir $<)"
+	@$(CC) $(DEPSOPTIONS) $(CFLAGS) -c $< -o $@
+
+%.o: %.cpp
+	@echo "[CXX] $(notdir $<)"
+	@$(CC) $(DEPSOPTIONS) $(CXXFLAGS) -c $< -o $@
+
+%.o: %.S
+	@echo "[CC]  $(notdir $<)"
+	@$(AS) $(DEPSOPTIONS) -x assembler-with-cpp $(ASFLAGS) -c $< -o $@
+
+%.a:
+	@echo "[AR]  $(notdir $@)"
+	@$(AR) -rcs $@ $^
+
+%.elf:
+	@echo "[LD]  $(notdir $@)"
+	@$(LD) $^ $(LDFLAGS) $(LIBPATHS) $(LIBS) $(PSL1GHT)/stub/{crt0.o,crt1.o} -o $@
+
+%.self: %.elf
+	@$(STRIP) $< -o $(BUILDDIR)/$(notdir $<)
+	@$(FSELF) $(BUILDDIR)/$(notdir $<) $@
+
+%.h: %.bin
+	@echo "[R2H] $<"
+	@$(RAW2H) $< $(BUILDDIR)/$(notdir $<).h $(notdir $(basename $<)_bin)
