@@ -3,6 +3,7 @@ include Makefile.base
 STUBS	:=	stub/crt0.o stub/crt1.o
 
 all: $(STUBS)
+	@make -C tools/raw2h --no-print-directory
 
 clean:
 	rm -f $(STUBS)

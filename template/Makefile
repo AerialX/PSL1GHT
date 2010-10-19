@@ -52,6 +52,7 @@ DEPENDS	:= $(OFILES:.o=.d)
 
 $(OUTPUT).self: $(OUTPUT).elf
 $(OUTPUT).elf: $(OFILES)
+$(OFILES): $(BINFILES)
 
 -include $(DEPENDS)
 
