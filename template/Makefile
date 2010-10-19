@@ -17,7 +17,8 @@ CFLAGS		+= -g -O2 -Wall
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
-export VPATH	:=	$(foreach dir,$(SOURCE),$(CURDIR)/$(dir))
+export VPATH	:=	$(foreach dir,$(SOURCE),$(CURDIR)/$(dir)) \
+					$(foreach dir,$(DATA),$(CURDIR)/$(dir))
 export BUILDDIR	:=	$(CURDIR)/$(BUILD)
 export DEPSDIR	:=	$(BUILDDIR)
 
@@ -28,8 +29,9 @@ BINFILES	:= $(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.bin)))
 
 export OFILES	:=	$(CFILES:.c=.o) \
 					$(CXXFILES:.cpp=.o) \
-					$(SFILES:.S=.o) \
-					$(BINFILES:.bin=.o)
+					$(SFILES:.S=.o)
+
+export BINFILES	:=	$(BINFILES:.bin=.bin.h)
 
 export INCLUDES	:=	$(foreach dir,$(INCLUDE),-I$(CURDIR)/$(dir)) \
 					-I$(CURDIR)/$(BUILD)

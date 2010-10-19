@@ -5,7 +5,7 @@ CC			:= $(PREFIX)gcc
 CXX			:= $(PREFIX)g++
 LD			:= $(PREFIX)ld
 STRIP		:= $(PREFIX)strip
-RAW2H		:= $(PSL1GHT)/../raw2h/raw2h
+RAW2H		:= $(PSL1GHT)/tools/raw2h/raw2h
 FSELF		:= make_fself
 
 CFLAGS		:= -fno-exceptions -I$(PSL1GHT)/include
@@ -17,15 +17,15 @@ DEPSOPTIONS	=	-MMD -MP -MF $(DEPSDIR)/$*.d
 
 %.o: %.c
 	@echo "[CC]  $(notdir $<)"
-	@$(CC) $(DEPSOPTIONS) $(CFLAGS) -c $< -o $@
+	@$(CC) $(DEPSOPTIONS) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 %.o: %.cpp
 	@echo "[CXX] $(notdir $<)"
-	@$(CC) $(DEPSOPTIONS) $(CXXFLAGS) -c $< -o $@
+	@$(CC) $(DEPSOPTIONS) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 %.o: %.S
 	@echo "[CC]  $(notdir $<)"
-	@$(AS) $(DEPSOPTIONS) -x assembler-with-cpp $(ASFLAGS) -c $< -o $@
+	@$(AS) $(DEPSOPTIONS) -x assembler-with-cpp $(ASFLAGS) $(INCLUDES) -c $< -o $@
 
 %.a:
 	@echo "[AR]  $(notdir $@)"
@@ -39,6 +39,6 @@ DEPSOPTIONS	=	-MMD -MP -MF $(DEPSDIR)/$*.d
 	@$(STRIP) $< -o $(BUILDDIR)/$(notdir $<)
 	@$(FSELF) $(BUILDDIR)/$(notdir $<) $@
 
-%.h: %.bin
+%.bin.h: %.bin
 	@echo "[R2H] $<"
 	@$(RAW2H) $< $(BUILDDIR)/$(notdir $<).h $(notdir $(basename $<)_bin)
