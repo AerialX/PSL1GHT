@@ -22,13 +22,17 @@ the included newlib unnecessary.
 Building
 --------
 
-Run make in the psl1ght directory to build it all. Then set the environment
-variable $PSL1GHT to the folder where you wish to install it to, for example
+Run make install in the psl1ght directory to build it all, and make sure to
+set the environment variable $PSL1GHT to the folder where you wish to
+install it to, for example...
 
-    export PSL1GHT=/path/to/psl1ght/build
+    cd /path/to/psl1ght.git
+    export PSL1GHT=/path/to/psl1ght.git/build
+    make
+    make install
 
-... for a local build of it somewhere. Make sure this is set when you are
-building any of the examples.
+... for a local build of it. Ensure that $PSL1GHT is set when you are
+building any of the examples or other apps that use PSL1GHT.
 
 
 Status
