@@ -25,7 +25,7 @@ Building
 Run make in the psl1ght directory to build it all. Then set the environment
 variable $PSL1GHT to the folder where you wish to install it to, for example
 
-  export PSL1GHT=/path/to/psl1ght/build
+    export PSL1GHT=/path/to/psl1ght/build
 
 ... for a local build of it somewhere. Make sure this is set when you are
 building any of the examples.
