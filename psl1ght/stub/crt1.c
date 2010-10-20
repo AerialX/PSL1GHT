@@ -7,6 +7,6 @@ static const char* envp[] = {
 int _initialize(int argc, const char* argv[], int arg5, int arg6, int arg7)
 {
 	int ret = main(argc, argv, envp);
-	//TODO: exit(ret);
+	exit(ret);
 	return ret;
 }

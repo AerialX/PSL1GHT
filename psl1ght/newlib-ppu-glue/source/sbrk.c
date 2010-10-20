@@ -20,7 +20,7 @@ void* sbrk(long increment)
 		return memend;
 	size_t allocsize = ROUND_UP(increment, PAGE_SIZE);
 	int addr;
-	if (Lv2Syscall(348, allocsize, PAGE_SIZE_FLAG, (u64)&addr, 0, 0, 0, 0, 0)) {
+	if (Lv2Syscall3(348, allocsize, PAGE_SIZE_FLAG, (u64)&addr)) {
 		errno = ENOMEM;
 		return (void*)-1;
 	}

@@ -26,7 +26,7 @@ ssize_t write(int fd, const void* buffer, size_t size)
 {
 	u64 written;
 	int ret;
-	if (fd == stdout->_file) {
+	if (fd == stdout->_file || fd == stderr->_file) {
 		ret = lv2TtyWrite(fd, buffer, size, (u32*)(void*)&written);
 		written >>= 32;
 	} else
@@ -70,6 +70,8 @@ off_t lseek(int fd, off_t offset, int whence)
 
 int isatty(int fd)
 {
+	if (fd == stdout->_file || fd == stdin->_file || fd == stderr->_file)
+		return 1;
 	errno = ENOTTY;
 	return 0;
 }

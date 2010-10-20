@@ -7,9 +7,9 @@ STUBS		:= $(SFILES:.S=.o) $(CFILES:.c=.o)
 
 all: $(STUBS)
 	@make -C tools/raw2h --no-print-directory
-	@make -C newlib --no-print-directory
 	@make -f Makefile.lib --no-print-directory
 	@make -C newlib-ppu-glue --no-print-directory
+	@make -C newlib --no-print-directory
 
 clean:
 	rm -f $(STUBS) stub.a
