@@ -1,11 +1,22 @@
 #include <psl1ght/lv2.h>
 
-int main()
+#include <stdio.h>
+#include <malloc.h>
+#include <string.h>
+
+int main(int argc, const char* argv[])
 {
-	// This example calls the TTY_WRITE syscall. You can view this
-	// message by using a payload that hooks TTY_WRITE and displays
-	// it somewhere (perhaps using PL3's self_elf network code?)
-	Lv2Syscall(403, 1, (u64)"ohai\n", 5, NULL, 0, 0, 0, 0);
+	// stdout is redirected to the TTY_WRITE syscall. You can view this
+	// message by using a payload that hooks TTY_WRITE (403) and displays
+	// it somewhere (perhaps using PL3's send_eth network code? Kammy's
+	// default loader also installs an ethernet printf hook into TTY_WRITE)
+	printf("December %dth, %d. %s.\n", 25, 1986, "Van Nuys");
+
+	char* buffer = (char*)malloc(0x100);
+	strcpy(buffer, "This is just an act of kindness\n");
+	strcat(buffer, "\tto let you know that your time is up.\n");
+	fprintf(stdout, "0x%016llx: %s\n", buffer, buffer);
+	free(buffer);
 
 	// Until exit() is implemented (liblv2's sys_process_exit),
 	// this actually returns to crt0 and causes an instruction exception.

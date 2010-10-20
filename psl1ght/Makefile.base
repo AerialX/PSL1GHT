@@ -1,17 +1,21 @@
 PREFIX		:= ppu-
 AR			:= $(PREFIX)ar
-AS			:= $(PREFIX)as
+AS			:= $(PREFIX)gcc
 CC			:= $(PREFIX)gcc
 CXX			:= $(PREFIX)g++
 LD			:= $(PREFIX)ld
 STRIP		:= $(PREFIX)strip
-RAW2H		:= $(PSL1GHT)/tools/raw2h/raw2h
+RAW2H		:= $(PSL1GHT)/bin/raw2h
 FSELF		:= make_fself
 
-CFLAGS		:= -fno-exceptions -I$(PSL1GHT)/include
+CFLAGS		:= -g -fno-exceptions \
+			   -I$(PSL1GHT)/include \
+			   -I$(PSL1GHT)/newlib/ppc64/include
 CXXFLAGS	:= $(CFLAGS) -fno-rtti
-CFLAGS		+= --std=gnu99
-LDFLAGS		:= -nostdlib -T $(PSL1GHT)/linker.x
+LDFLAGS		:= -nostdlib -T $(PSL1GHT)/lib/linker.x \
+			   -L$(PSL1GHT)/newlib/ppc64/lib \
+			   -L$(PSL1GHT)/lib \
+			   -lc -lc-glue -lc -lpsl1ght -lc-glue
 
 DEPSOPTIONS	=	-MMD -MP -MF $(DEPSDIR)/$*.d
 
@@ -33,7 +37,7 @@ DEPSOPTIONS	=	-MMD -MP -MF $(DEPSDIR)/$*.d
 
 %.elf:
 	@echo "[LD]  $(notdir $@)"
-	@$(LD) $^ $(LDFLAGS) $(LIBPATHS) $(LIBS) $(PSL1GHT)/stub/{crt0.o,crt1.o} -o $@
+	@$(LD) $(PSL1GHT)/lib/{crt0,crt1}.o $^ $(LIBPATHS) $(LIBS) $(LDFLAGS) -o $@
 
 %.self: %.elf
 	@$(STRIP) $< -o $(BUILDDIR)/$(notdir $<)
