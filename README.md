@@ -39,7 +39,7 @@ Status
 ------
 
 At the moment, PSL1GHT has basic libc support, with stdout debugging, file
-access, etc. You can call lv2 syscalls and do some fun stuff with that, but
-it doesn't link to PS3 dynamic libraries yet which is where all the
-exciting functionality comes in. Also, a make_fself equivalent is still
-missing.
+access, etc. It doesn't have any way to access the screen/graphics. You can
+call lv2 syscalls and do some fun stuff with that, but it doesn't link to
+PS3 dynamic libraries yet which is where all the exciting functionality
+comes in. Also, a make_fself equivalent is still missing.

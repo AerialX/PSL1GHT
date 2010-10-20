@@ -37,7 +37,7 @@ DEPSOPTIONS	=	-MMD -MP -MF $(DEPSDIR)/$*.d
 
 %.elf:
 	@echo "[LD]  $(notdir $@)"
-	@$(LD) $(PSL1GHT)/lib/{crt0,crt1}.o $^ $(LIBPATHS) $(LIBS) $(LDFLAGS) -o $@
+	@$(LD) $(PSL1GHT)/lib/crt0.o $(PSL1GHT)/lib/crt1.o $^ $(LIBPATHS) $(LIBS) $(LDFLAGS) -o $@
 
 %.self: %.elf
 	@$(STRIP) $< -o $(BUILDDIR)/$(notdir $<)

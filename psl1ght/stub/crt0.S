@@ -18,5 +18,7 @@
 .section ".opd","aw"
 .global _start
 _start:
-	.quad ._start, .TOC.@tocbase, 0
+	.quad ._start
+	.quad .TOC.@tocbase
+	.quad 0
 

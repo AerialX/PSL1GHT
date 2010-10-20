@@ -19,10 +19,10 @@ clean:
 	@make -C newlib clean --no-print-directory
 
 install: all
-	@mkdir -p $(PSL1GHT)/{include,lib,bin}
+	@mkdir -p $(PSL1GHT)/include $(PSL1GHT)/lib $(PSL1GHT)/bin
 	@cp libpsl1ght.a newlib-ppu-glue/newlib-ppu-glue.a $(PSL1GHT)/lib/
 	@cp newlib-ppu-glue/newlib-ppu-glue.a $(PSL1GHT)/lib/libc-glue.a
-	@cp linker.x stub/{crt0,crt1}.o $(PSL1GHT)/lib/
+	@cp linker.x stub/crt0.o stub/crt1.o $(PSL1GHT)/lib/
 	@cp -r include $(PSL1GHT)/
 	@cp Makefile.base $(PSL1GHT)/
 	@cp tools/raw2h/raw2h $(PSL1GHT)/bin/
