@@ -32,5 +32,5 @@ install: all
 	$(CC) -Iinclude -c $< -o $@
 
 %.o: %.S
-	$(CC) -Iinclude -c $< -o $@
+	$(CC) -x assembler-with-cpp -Iinclude -c $< -o $@
 

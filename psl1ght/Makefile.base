@@ -11,6 +11,9 @@ FSELF		:= make_fself
 CFLAGS		:= -g -fno-exceptions \
 			   -I$(PSL1GHT)/include \
 			   -I$(PSL1GHT)/newlib/ppc64/include
+ifdef PS3DEV # ooPo's ps3toolchain
+CFLAGS		+= -I$(PS3DEV)/ppu/include
+endif
 CXXFLAGS	:= $(CFLAGS) -fno-rtti
 LDFLAGS		:= -nostdlib -T $(PSL1GHT)/lib/linker.x \
 			   -L$(PSL1GHT)/newlib/ppc64/lib \
