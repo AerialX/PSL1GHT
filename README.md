@@ -11,13 +11,12 @@ Environment
 
 A GCC toolchain that supports the PowerPC 64bit architecture is required to
 build PSL1GHT and its samples.
-[This](http://www.bsc.es/plantillaH.php?cat_id=579) is the only toolchain
-that I test with and can guarantee support for.
-[ps3chain](http://github.com/HACKERCHANNEL/ps3chain) probably works just as
-well, as should marcan's [AsbestOS](http://git.marcansoft.com/?p=asbestos.git)
-toolchain, and ooPo's [ps3toolchain](http://github.com/ooPo/ps3toolchain).
-Some toolchains will probably already use newlib, and may make the included
-newlib unnecessary.
+[The Cell SDK](http://www.bsc.es/plantillaH.php?cat_id=579) toolchain works
+fairly well. [ps3chain](http://github.com/HACKERCHANNEL/ps3chain) and
+ooPo's [ps3toolchain](http://github.com/ooPo/ps3toolchain) both work well,
+as should marcan's [AsbestOS](http://git.marcansoft.com/?p=asbestos.git)
+toolchain. I personally test with the Cell SDK and ps3chain, and can
+guarantee that they both work great.
 
 
 Building
