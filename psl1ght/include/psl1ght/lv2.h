@@ -3,7 +3,7 @@
 #include <psl1ght/types.h>
 
 // lv2 retail 3.41
-#define LV2_INLINE_TABLE	0x80000000002EB128ULL
+#define LV2_SYSCALL_TABLE	0x80000000002EB128ULL
 
 #define LV2_INLINE static inline __attribute__((unused))
 #define LV2_SYSCALL LV2_INLINE s32
@@ -37,7 +37,7 @@
 #define __lv2syscall(num) \
 	LV2_INLINE u64 Lv2Syscall##num(u64 syscall, __lv2syscallarg##num) \
 	{ \
-		u64 (*syscallopd)(__lv2syscallargt##num) = (u64 (*)(__lv2syscallargt##num))*(u64*)(LV2_INLINE_TABLE + syscall * 8); \
+		u64 (*syscallopd)(__lv2syscallargt##num) = (u64 (*)(__lv2syscallargt##num))*(u64*)(LV2_SYSCALL_TABLE + syscall * 8); \
 		return syscallopd(__lv2syscall##num); \
 	}
 
