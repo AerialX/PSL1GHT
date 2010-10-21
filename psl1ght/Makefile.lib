@@ -6,7 +6,7 @@
 TARGET		:=	libpsl1ght
 BUILD		:=	build
 SOURCE		:=	source
-INCLUDE		:=	include
+INCLUDE		:=	include newlib/newlib-1.18.0/newlib/libc/include
 DATA		:=	data
 LIBS		:=	
 
