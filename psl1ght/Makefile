@@ -9,7 +9,6 @@ all: $(STUBS)
 	@make -C tools/raw2h --no-print-directory
 	@make -f Makefile.lib --no-print-directory
 	@make -C newlib-ppu-glue --no-print-directory
-	@make -C newlib --no-print-directory
 
 clean:
 	rm -f $(STUBS) stub.a
@@ -28,9 +27,15 @@ install: all
 	@cp tools/raw2h/raw2h $(PSL1GHT)/bin/
 	@make -C newlib install --no-print-directory
 
+newlib:
+	@make -C newlib --no-print-directory
+
+$(STUBS): newlib
+
 %.o: %.c
-	$(CC) -Iinclude -c $< -o $@
+	$(CC) -Iinclude -Inewlib/newlib-1.18.0/newlib/libc/include -c $< -o $@
 
 %.o: %.S
 	$(CC) -x assembler-with-cpp -Iinclude -c $< -o $@
 
+.PHONY: all clean newlib install
