@@ -2,6 +2,11 @@
 OUTPUT_FORMAT("elf64-powerpc", "elf64-powerpc", "elf64-powerpc")
 OUTPUT_ARCH(powerpc:common64)
 ENTRY(_start)
+SEARCH_DIR($PSL1GHT/lib)
+INPUT(-lc-glue-ppu)
+INPUT(-lc)
+INPUT(-lpsl1ght)
+INPUT(-lc-glue-ppu)
 SECTIONS
 {
   /* Read-only sections, merged into text segment: */

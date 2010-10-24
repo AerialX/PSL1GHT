@@ -5,7 +5,7 @@
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
 SOURCE		:=	source
-INCLUDE		:=	../include ../newlib/newlib-1.18.0/newlib/libc/include
+INCLUDE		:=	../include
 DATA		:=	data
 LIBS		:=	
 

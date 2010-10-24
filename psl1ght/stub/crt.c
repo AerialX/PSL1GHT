@@ -2,12 +2,14 @@
 
 int main(int argc, const char* argv[], const char* envp[]);
 
-static const char* envp[] = {
-	0
-};
+void _init();
 
-int _initialize(int argc, const char* argv[], int arg5, int arg6, int arg7)
+static const char* envp[] = { 0 };
+const char** environ = envp;
+
+int _initialize(int argc, const char* argv[])
 {
+	_init();
 	int ret = main(argc, argv, envp);
 	exit(ret);
 	return ret;

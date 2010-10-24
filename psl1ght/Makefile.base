@@ -3,22 +3,16 @@ AR			:= $(PREFIX)ar
 AS			:= $(PREFIX)gcc
 CC			:= $(PREFIX)gcc
 CXX			:= $(PREFIX)g++
-LD			:= $(PREFIX)ld
+LD			:= $(CC)
 STRIP		:= $(PREFIX)strip
 RAW2H		:= $(PSL1GHT)/bin/raw2h
 FSELF		:= make_fself
 
 CFLAGS		:= -g -fno-exceptions \
-			   -I$(PSL1GHT)/include \
-			   -I$(PSL1GHT)/newlib/ppc64/include
-ifdef PS3DEV # ooPo's ps3toolchain
-CFLAGS		+= -I$(PS3DEV)/ppu/include
-endif
+			   -I$(PSL1GHT)/include
 CXXFLAGS	:= $(CFLAGS) -fno-rtti
-LDFLAGS		:= -nostdlib -T $(PSL1GHT)/lib/linker.x \
-			   -L$(PSL1GHT)/newlib/ppc64/lib \
-			   -L$(PSL1GHT)/lib \
-			   -lc -lc-glue -lc -lpsl1ght -lc-glue
+LDFLAGS		:= -T $(PSL1GHT)/lib/linker.x \
+			   -B$(PSL1GHT)/lib
 
 DEPSOPTIONS	=	-MMD -MP -MF $(DEPSDIR)/$*.d
 
@@ -40,7 +34,7 @@ DEPSOPTIONS	=	-MMD -MP -MF $(DEPSDIR)/$*.d
 
 %.elf:
 	@echo "[LD]  $(notdir $@)"
-	@$(LD) $(PSL1GHT)/lib/crt0.o $(PSL1GHT)/lib/crt1.o $^ $(LIBPATHS) $(LIBS) $(LDFLAGS) -o $@
+	@$(LD) $^ $(LIBPATHS) $(LIBS) $(LDFLAGS) -o $@
 
 %.self: %.elf
 	@$(STRIP) $< -o $(BUILDDIR)/$(notdir $<)

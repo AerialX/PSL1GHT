@@ -2,11 +2,11 @@
 
 -include Makefile.base
 -include ../Makefile.base
-
+           
 TARGET		:=	libpsl1ght
 BUILD		:=	build
 SOURCE		:=	source
-INCLUDE		:=	include newlib/newlib-1.18.0/newlib/libc/include
+INCLUDE		:=	include
 DATA		:=	data
 LIBS		:=	
 
