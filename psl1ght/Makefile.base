@@ -6,11 +6,11 @@ CXX			:= $(PREFIX)g++
 LD			:= $(CC)
 STRIP		:= $(PREFIX)strip
 RAW2H		:= $(PSL1GHT)/bin/raw2h
-FSELF		:= make_fself
+FSELF		:= $(PSL1GHT)/bin/make_fself.py
 
-CFLAGS		:= -g -fno-exceptions \
+CFLAGS		:= -g \
 			   -I$(PSL1GHT)/include
-CXXFLAGS	:= $(CFLAGS) -fno-rtti
+CXXFLAGS	:= $(CFLAGS)
 LDFLAGS		:= -T $(PSL1GHT)/lib/linker.x \
 			   -B$(PSL1GHT)/lib
 

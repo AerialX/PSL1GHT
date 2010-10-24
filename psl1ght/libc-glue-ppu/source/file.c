@@ -59,6 +59,12 @@ int fstat(int fd, struct stat* st)
 	return -1;
 }
 
+int stat(const char* path, struct stat* buf)
+{
+	errno = ENOSYS;
+	return -1;
+}
+
 off_t lseek(int fd, off_t offset, int whence)
 {
 	u64 position;
