@@ -7,27 +7,17 @@
 
 typedef s32 Lv2FsMode;
 typedef s32 Lv2FsFile;
-//typedef s64 time_t;
 
 // Open Flags
-/*#define O_RDONLY	000000
-#define O_WRONLY	000001
-#define O_RDWR		000002
-#define O_ACCMODE	000003
-#define O_CREAT		000100
-#define O_EXCL		000200
-#define O_TRUNC		001000
-#define O_APPEND	002000*/
-
-// Seek Types
-/*#define SEEK_SET	0
-#define SEEK_CUR	1
-#define SEEK_END	2*/
-
-// Dir Modes
-/*#define	S_IFDIR		0040000
-#define	S_IFREG		0100000
-#define	S_IFLNK		0120000*/
+#define LV2_O_RDONLY	000000
+#define LV2_O_WRONLY	000001
+#define LV2_O_RDWR		000002
+#define LV2_O_ACCMODE	000003
+#define LV2_O_CREAT		000100
+#define LV2_O_EXCL		000200
+#define LV2_O_TRUNC		001000
+#define LV2_O_APPEND	002000
+#define LV2_O_MSELF		010000
 
 typedef struct {	
 	Lv2FsMode st_mode;

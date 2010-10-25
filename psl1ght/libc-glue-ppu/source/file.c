@@ -11,7 +11,18 @@
 int open(const char* path, int oflag, ...)
 {
 	Lv2FsFile fd;
-	int ret = lv2FsOpen(path, oflag, &fd, 0, NULL, 0);
+
+	int lv2flag = oflag & (O_ACCMODE | LV2_O_MSELF);
+	if (oflag & O_CREAT)
+		oflag |= LV2_O_CREAT;
+	if (oflag & O_TRUNC)
+		oflag |= LV2_O_TRUNC;
+	if (oflag & O_EXCL)
+		oflag |= LV2_O_EXCL;
+	if (oflag & O_APPEND)
+		oflag |= LV2_O_APPEND;
+
+	int ret = lv2FsOpen(path, lv2flag, &fd, 0, NULL, 0);
 	if (ret)
 		return lv2Errno(ret);
 	return fd;
