@@ -32,7 +32,6 @@ class SelfHeader(Struct):
 		self.sceversion = Struct.uint64
 		self.digest	= Struct.uint64
 		self.digestSize = Struct.uint64
-		self.padding    = Struct.uint64
 
 class AppInfo(Struct):
 	__endian__ = Struct.BE
@@ -41,7 +40,6 @@ class AppInfo(Struct):
 		self.unknown	= Struct.uint32
 		self.appType	= Struct.uint32
 		self.appVersion = Struct.uint64
-		self.padding    = Struct.uint64
 
 class phdrOffset(Struct):
 	__endian__ = Struct.BE
@@ -73,7 +71,6 @@ class Digest(Struct):
 		self.fileSHA1 		= Struct.uint8[0x10]
 		self.notSHA1 		= Struct.uint8[0x10]
 		self.notXORKLSHA1 	= Struct.uint8[0x10]
-		self.nulls 		= Struct.uint8[0x10]
 
 class Elf64_ehdr(Struct):
 	__endian__ = Struct.BE
@@ -105,20 +102,13 @@ class Elf64_phdr(Struct):
 		self.memsz	= Struct.uint64
 		self.align	= Struct.uint64
 
-class sceVersion(Struct):
-	__endian__ = Struct.BE
-	def __format__(self):
-		self.unk1	= Struct.uint32
-		self.unk2	= Struct.uint32
-		self.unk3	= Struct.uint32
-		self.unk4	= Struct.uint32
-		self.unk5	= Struct.uint16
-		self.unk6	= Struct.uint16
-		self.unk7	= Struct.uint32
-		self.unk8	= Struct.uint32
-		self.unk9	= Struct.uint32
-		self.offset	= Struct.uint64
-		self.size	= Struct.uint64
+def align(address, alignment):
+	padding = alignment - (address % alignment)
+	return address + padding
+
+def padding(address, alignment):
+	padding = alignment - (address % alignment)
+	return "\0" * padding
 
 def readElf(filename):
 	with open(filename, 'rb') as fp:
@@ -141,29 +131,33 @@ def createFself(filename, outfile="EBOOT.BIN"):
 	header = SelfHeader()
 	appinfo = AppInfo()
 	digest = Digest()
-
-	headerSize = len(header) + len(appinfo) + len(digest) + len(ehdr)
-	headerSize+= len(phdrs) * (0x38 + 0x20)
-
-	padding = 0x80 - (headerSize % 0x80)
-	headerSize += padding
+	phdr = Elf64_phdr()
+	phdrOffsets = phdrOffset()
 
 	header.magic = 0x53434500
 	header.headerVer = 2
 	header.flags = 0x8000
 	header.type = 1
-	header.meta = headerSize - 0x20 - padding
-	header.headerSize = headerSize
 	header.encryptedSize = len(elf)
 	header.unknown = 3
-	header.AppInfo = len(header)
-	header.elf = len(header) + len(appinfo)
+	header.AppInfo = align(len(header), 0x10)
+	header.elf = align(header.AppInfo + len(appinfo), 0x10)
 	header.phdr = header.elf + len(ehdr)
-	header.shdr = headerSize + ehdr.shoff
-	header.phdrOffsets = header.phdr + len(phdrs) * 0x38
+	phdrOffsetsOffset = header.phdr + len(phdr) * len(phdrs)
+	header.phdrOffsets = align(phdrOffsetsOffset, 0x10);
+
 	header.sceVersion = 0
-	header.digest = headerSize - len(digest) - padding
+	
+	digestOffset = header.phdrOffsets + len(phdrs) * len(phdrOffsets)
+	header.digest = align(digestOffset, 0x10)
 	header.digestSize = len(digest)
+
+	endofHeader = header.digest + len(digest)
+	elfOffset = align(endofHeader, 0x80)
+
+	header.shdr = elfOffset + ehdr.shoff
+	header.headerSize = elfOffset
+	header.meta = endofHeader - 0x10
 
 	appinfo.authid = 0x1010000001000003
 	appinfo.unknown = 0x1000002
@@ -192,7 +186,7 @@ def createFself(filename, outfile="EBOOT.BIN"):
 	offsets = []
 	for phdr in phdrs:
 		offset = phdrOffset()
-		offset.offset = phdr.offset + headerSize
+		offset.offset = phdr.offset + elfOffset
 		offset.size = phdr.filesz
 		offset.unk1 = 1
 		offset.unk2 = 0
@@ -204,15 +198,20 @@ def createFself(filename, outfile="EBOOT.BIN"):
 		offsets.append(offset)
 
 	out = open(outfile, 'wb')
+
 	out.write(header.pack())
+	out.write(padding(len(header), 0x10))
 	out.write(appinfo.pack())
+	out.write(padding(header.AppInfo + len(appinfo), 0x10))
 	out.write(ehdr.pack())
 	for phdr in phdrs:
 		out.write(phdr.pack())
+	out.write(padding(phdrOffsetsOffset, 0x10))
 	for offset in offsets:
 		out.write(offset.pack())
+	out.write(padding(digestOffset, 0x10))
 	out.write(digest.pack())
-	out.write("\0" * padding)
+	out.write(padding(endofHeader, 0x80))
 	out.write(elf)
 
 import sys
