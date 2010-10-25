@@ -12,19 +12,29 @@
 
 // Here's a very lazy and lossy sbrk. It's made of fail, but I'm lazy.
 char* memend = 0;
+char* pageend = 0;
 void* sbrk(long increment)
 {
 	if (increment == 0)
 		return memend;
-	if (increment < 0)
+	if (increment < 0) // >.>
 		return memend;
+	if (memend + increment <= pageend) {
+		void* ret = memend;
+		memend += increment;
+		return ret;
+	}
 	size_t allocsize = ROUND_UP(increment, PAGE_SIZE);
-	int addr;
-	if (Lv2Syscall3(348, allocsize, PAGE_SIZE_FLAG, (u64)&addr)) {
+	u32 taddr;
+	if (Lv2Syscall3(348, allocsize, PAGE_SIZE_FLAG, (u64)&taddr)) {
 		errno = ENOMEM;
 		return (void*)-1;
 	}
-	memend = (char*)(u64)addr;
+	char* addr = (char*)(u64)taddr;
+	if (pageend != addr)
+		memend = (char*)(u64)addr;
+	pageend = addr + allocsize;
+	char* ret = memend;
 	memend += increment;
-	return (void*)(u64)addr;
+	return ret;
 }
