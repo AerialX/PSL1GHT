@@ -12,7 +12,8 @@ INCLUDE		:=	include
 DATA		:=	data
 LIBS		:=	
 
-CFLAGS		+= -g -O2 -Wall
+CFLAGS		+= -g -O2 -Wall --std=gnu99
+CXXFLAGS	+= -g -O2 -Wall
 
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 
