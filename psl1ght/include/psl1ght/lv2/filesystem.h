@@ -38,7 +38,7 @@ typedef struct {
 	time_t st_ctime;
 	u64 st_size;
 	u64 st_blksize;
-} Lv2FsStat;
+} __attribute__((__packed__)) Lv2FsStat;
 
 typedef struct {
 	u8 d_type;
