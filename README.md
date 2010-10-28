@@ -5,6 +5,10 @@ PSL1GHT is a lightweight PlayStation 3 homebrew SDK, provided as a temporary
 way to compile user apps to run from the XMB using the open-source PS3
 toolchains available.
 
+**PSL1GHT has moved to [HACKERCHANNEL](http://github.com/HACKERCHANNEL/PSL1GHT).
+This fork may or may not serve as my development branch, and may or may not
+be updated at all anymore. So go there instead for "official" releases.**
+
 
 Environment
 -----------
