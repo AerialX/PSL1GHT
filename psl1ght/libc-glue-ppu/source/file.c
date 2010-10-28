@@ -8,6 +8,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#define DEFAULT_FILE_MODE (S_IRWXU | S_IRWXG | S_IRWXO)
+
 int open(const char* path, int oflag, ...)
 {
 	Lv2FsFile fd;
@@ -22,9 +24,17 @@ int open(const char* path, int oflag, ...)
 	if (oflag & O_APPEND)
 		oflag |= LV2_O_APPEND;
 
-	int ret = lv2FsOpen(path, lv2flag, &fd, 0, NULL, 0);
+	int mode = 0;
+	if (oflag & O_WRONLY)
+		mode = DEFAULT_FILE_MODE;
+
+	int ret = lv2FsOpen(path, lv2flag, &fd, mode, NULL, 0);
 	if (ret)
 		return lv2Errno(ret);
+
+	if (oflag & O_CREAT)
+		lv2FsChmod(path, DEFAULT_FILE_MODE);
+
 	return fd;
 }
 
@@ -91,5 +101,10 @@ int isatty(int fd)
 		return 1;
 	errno = ENOTTY;
 	return 0;
+}
+
+int chmod(const char* path, mode_t mode)
+{
+	return lv2Errno(lv2FsChmod(path, mode));
 }
 

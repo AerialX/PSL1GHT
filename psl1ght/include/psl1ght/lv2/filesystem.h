@@ -41,7 +41,7 @@ typedef struct {
 	time_t modtime;
 } Lv2FsUtime;
 
-LV2_SYSCALL lv2FsOpen(const char* path, s32 oflags, Lv2FsFile* fd, u64 unk, const void* arg, u64 argsize) { return Lv2Syscall6(801, (u64)path, oflags, (u64)fd, unk, (u64)arg, argsize); }
+LV2_SYSCALL lv2FsOpen(const char* path, s32 oflags, Lv2FsFile* fd, u32 mode, const void* arg, u64 argsize) { return Lv2Syscall6(801, (u64)path, oflags, (u64)fd, mode, (u64)arg, argsize); }
 LV2_SYSCALL lv2FsRead(Lv2FsFile fd, void* buf, u64 size, u64* read) { return Lv2Syscall4(802, fd, (u64)buf, size, (u64)read); }
 LV2_SYSCALL lv2FsWrite(Lv2FsFile fd, const void* buf, u64 size, u64* written) { return Lv2Syscall4(803, fd, (u64)buf, size, (u64)written); }
 LV2_SYSCALL lv2FsClose(Lv2FsFile fd) { return Lv2Syscall1(804, fd); }
