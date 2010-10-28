@@ -10,9 +10,6 @@ DATA		:=	data
 LIBS		:=	
 
 CFLAGS		:= -g -O2 -Wall -fno-exceptions
-ifdef PS3DEV # ooPo's ps3toolchain
-CFLAGS		+= -I$(PS3DEV)/ppu/include
-endif
 
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 

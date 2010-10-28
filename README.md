@@ -11,8 +11,10 @@ Environment
 
 A GCC toolchain that supports the PowerPC 64bit architecture is required to
 build PSL1GHT and its samples. It also requires the toolchain to provide
-a full newlib environment; at the moment the only toolchain to do so is
-[ps3chain](http://github.com/HACKERCHANNEL/ps3chain).
+a full newlib environment; at the moment only two toolchains do so:
+
+* [ps3chain](http://github.com/HACKERCHANNEL/ps3chain)
+* [ps3toolchain](http://github.com/ooPo/ps3toolchain)
 
 The SDK also includes a few standalone tools to help compilation. A host gcc
 is required to build raw2h, and Python 2.x is required to run make_fself.py
