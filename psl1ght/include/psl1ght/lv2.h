@@ -2,6 +2,10 @@
 
 #include <psl1ght/types.h>
 
+// 32bit types
+typedef u32 lv2_void;
+typedef u32 lv2_size_t;
+
 // lv2 retail 3.41
 #define LV2_SYSCALL_TABLE	0x80000000002EB128ULL
 
