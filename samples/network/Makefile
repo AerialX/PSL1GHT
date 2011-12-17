@@ -10,7 +10,7 @@ BUILD		:=	build
 SOURCE		:=	source
 INCLUDE		:=	include
 DATA		:=	data
-LIBS		:=	
+LIBS		:=
 
 CFLAGS		+= -g -O2 -Wall --std=gnu99
 CXXFLAGS	+= -g -O2 -Wall

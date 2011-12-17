@@ -62,13 +62,13 @@ ssize_t read(int fd, void* buffer, size_t size)
 {
 	u64 bytes;
 	int ret;
-	
+
 	if (fd == stdin->_file) {
 		ret = lv2TtyRead(fd, buffer, size, (u32*)(void*)&bytes);
 		bytes >>= 32;
 	} else
 		ret = lv2FsRead(fd, buffer, size, &bytes);
-	
+
 	if (ret)
 		return lv2Errno(ret);
 	return bytes;

@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 
-static const char header[] = 
+static const char header[] =
 	"#pragma once\n\n" \
 	"#include <stdint.h>\n\n" \
 	"const uint8_t %s[] = {\n";
 
 static const char footer[] = "\n};\n";
-  
+
 int main(int argc, char **argv)
 {
   char buf[256];
