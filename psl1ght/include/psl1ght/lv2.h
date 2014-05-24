@@ -12,7 +12,7 @@ typedef u32 lv2_size_t;
 #define LV2_INLINE static inline __attribute__((unused))
 #define LV2_SYSCALL LV2_INLINE s32
 
-#define __lv2syscallarg0 
+#define __lv2syscallarg0
 #define __lv2syscallarg1 __lv2syscallarg0, u64 a1
 #define __lv2syscallarg2 __lv2syscallarg1, u64 a2
 #define __lv2syscallarg3 __lv2syscallarg2, u64 a3
@@ -21,7 +21,7 @@ typedef u32 lv2_size_t;
 #define __lv2syscallarg6 __lv2syscallarg5, u64 a6
 #define __lv2syscallarg7 __lv2syscallarg6, u64 a7
 #define __lv2syscallarg8 __lv2syscallarg7, u64 a8
-#define __lv2syscallargt0 
+#define __lv2syscallargt0
 #define __lv2syscallargt1 u64
 #define __lv2syscallargt2 __lv2syscallargt1, u64
 #define __lv2syscallargt3 __lv2syscallargt2, u64
@@ -30,7 +30,7 @@ typedef u32 lv2_size_t;
 #define __lv2syscallargt6 __lv2syscallargt5, u64
 #define __lv2syscallargt7 __lv2syscallargt6, u64
 #define __lv2syscallargt8 __lv2syscallargt7, u64
-#define __lv2syscall0 
+#define __lv2syscall0
 #define __lv2syscall1 a1
 #define __lv2syscall2 __lv2syscall1, a2
 #define __lv2syscall3 __lv2syscall2, a3

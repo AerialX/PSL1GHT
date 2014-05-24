@@ -19,7 +19,7 @@ typedef s32 Lv2FsFile;
 #define LV2_O_APPEND	002000
 #define LV2_O_MSELF		010000
 
-typedef struct {	
+typedef struct {
 	Lv2FsMode st_mode;
 	s32 st_uid;
 	s32 st_gid;
